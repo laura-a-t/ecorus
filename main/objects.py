@@ -1,13 +1,17 @@
 from dataclasses import dataclass, field
+from uuid import uuid4
 
 
+@dataclass
 class Person:
-    def __init__(self, name: str, age: str):
-        self.name = name
-        self.age = age
+    name: str
+    age: int
 
-    def __repr__(self):
-        return f'{self.name}-{self.age}'
+    def __post_init__(self):
+        self._id = int(uuid4())
+
+    def __hash__(self):
+        return self._id
 
     def happyBirthday(self):
         self.age += 1

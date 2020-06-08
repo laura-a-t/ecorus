@@ -1,7 +1,10 @@
-from flask import jsonify, request, Blueprint
+from flask import request, Blueprint
 from werkzeug.exceptions import HTTPException
+from sqlalchemy.orm.exc import NoResultFound
 
 from main.api.util import make_response
+from main.db.db import session
+from main.db.models import Office
 
 blueprint = Blueprint('offices', __name__)
 
@@ -19,7 +22,12 @@ def handle_error(e):
 
 @blueprint.route('/<office_id>', methods=['GET'])
 def get(office_id):
-    return make_response(f"Office id {office_id}", 200)
+    with session() as sess:
+        try:
+            office = sess.query(Office).filter_by(id=office_id).one()
+        except NoResultFound:
+            return make_response(f"Office with id {office_id} does not exist", 404)
+        return make_response(f"Office with id {office_id}", 200, office=office.to_dict())
 
 
 @blueprint.route('/<office_id>', methods=['DELETE'])
@@ -42,5 +50,11 @@ def remove_employee(person_id):
 
 @blueprint.route('/', methods=['POST'])
 def post():
-    office = request.json
-    return make_response("Created office with id xxx", 200, office=office)
+    data = request.json
+    with session() as sess:
+        new_office = Office(
+            name=data['name']
+        )
+        sess.add(new_office)
+        sess.flush()
+        return make_response(f"Created office with id {new_office.id}", 200, office=new_office.to_dict())

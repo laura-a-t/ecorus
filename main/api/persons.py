@@ -1,7 +1,10 @@
-from flask import jsonify, request, Blueprint
+from flask import request, Blueprint
 from werkzeug.exceptions import HTTPException
+from sqlalchemy.orm.exc import NoResultFound
 
 from main.api.util import make_response
+from main.db.db import session
+from main.db.models import Person, Office
 
 blueprint = Blueprint('persons', __name__)
 
@@ -19,28 +22,60 @@ def handle_error(e):
 
 @blueprint.route('/<person_id>', methods=['GET'])
 def get(person_id):
-    return make_response(f"Person id {person_id}", 200)
+    with session() as sess:
+        try:
+            person = sess.query(Person).filter_by(id=person_id).one()
+        except NoResultFound:
+            return make_response(f"Person with id {person_id} does not exist", 404)
+        return make_response("Success", 200, person=person.to_dict())
 
 
 @blueprint.route('/<person_id>', methods=['DELETE'])
 def delete(person_id):
-    return make_response(f"Person with id {person_id} was removed from the database", 200)
+    with session() as sess:
+        try:
+            person = sess.query(Person).filter_by(id=person_id).one()
+            sess.delete(person)
+        except NoResultFound:
+            return make_response(f"Person with id {person_id} does not exist", 404)
+        return make_response(f"Person with id {person_id} was deleted", 200, person=person.to_dict())
 
 
 @blueprint.route('/<person_id>', methods=['PUT'])
 def put(person_id):
     modified_person = request.json
-    if 'age' in modified_person and modified_person['age']:
-        message = 'Happy birthday!'
-    elif 'name' in modified_person:
-        message = 'Changed name to %s' % modified_person['name']
-    else:
-        message = 'No changes made'
-    return make_response(message, 200)
+    increment_age = modified_person.get('age', False)
+    name = modified_person.get('name')
+    with session() as sess:
+        try:
+            person = sess.query(Person).filter_by(id=person_id).one()
+            if increment_age:
+                person.age = person.age + 1
+            if name:
+                person.name = name
+        except NoResultFound:
+            return make_response(f"Person with id {person_id} does not exist", 404)
+        return make_response("Success", 200, person=person.to_dict())
 
 
 @blueprint.route('/', methods=['POST'])
 def post():
-    person = request.json
-    return make_response("Created person with id xxx", 200, person=person)
+    data = request.json
+    office_id = data.get('office_id')
+    office = None
+    with session() as sess:
+        if office_id:
+            try:
+                office = sess.query(Office).filter_by(id=office_id).one()
+            except NoResultFound:
+                return make_response(f"Office with id {office_id} does not exist, did not create person entry", 404)
+        new_person = Person(
+            name=data['name'],
+            age=data['age'],
+            office_id=office,
+            office=office
+        )
+        sess.add(new_person)
+        sess.flush()
+        return make_response(f"Created person with id {new_person.id}", 200, person=new_person.to_dict())
 

@@ -32,8 +32,13 @@ def get(office_id):
 
 @blueprint.route('/<office_id>', methods=['DELETE'])
 def delete(office_id):
-    # Check that office has no employees; If it has employees, raise 400 error
-    return make_response(f"Office with id {office_id} was removed from the database", 200)
+    with session() as sess:
+        try:
+            office = sess.query(Office).filter_by(id=office_id).one()
+            sess.delete(office)
+        except NoResultFound:
+            return make_response(f"Office with id {office_id} does not exist", 404)
+        return make_response(f"Deleted office with id {office_id}", 200, office=office.to_dict())
 
 
 @blueprint.route('/add_employee/<person_id>', methods=['PUT'])

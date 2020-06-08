@@ -14,7 +14,7 @@ class Office(Base):
         return {
             "id": self.id,
             "name": self.name,
-            "people_working": self.people_working
+            "people_working": [person.to_dict_no_office() for person in self.people_working]
         }
 
 
@@ -23,12 +23,21 @@ class Person(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     age = Column(Integer, nullable=False)
-    office_id = Column(Integer, ForeignKey('office.id'))
+    office_id = Column(Integer, ForeignKey('office.id'), nullable=True)
     office = relationship(Office, backref=backref('people_working', uselist=True))
 
     def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
-            "age": self.age
+            "age": self.age,
+            "office_id": self.office_id,
+            "office": self.office.name if isinstance(self.office, Office) else None
+        }
+
+    def to_dict_no_office(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "age": self.age,
         }

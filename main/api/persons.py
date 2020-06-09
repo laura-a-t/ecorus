@@ -20,7 +20,7 @@ def handle_error(e):
     )
 
 
-@blueprint.route('/<person_id>', methods=['GET'])
+@blueprint.route('/<person_id>', methods=['GET'], strict_slashes=False)
 def get(person_id):
     with session() as sess:
         try:
@@ -30,7 +30,7 @@ def get(person_id):
         return make_response("Success", 200, person=person.to_dict())
 
 
-@blueprint.route('/<person_id>', methods=['DELETE'])
+@blueprint.route('/<person_id>', methods=['DELETE'], strict_slashes=False)
 def delete(person_id):
     with session() as sess:
         try:
@@ -41,7 +41,7 @@ def delete(person_id):
         return make_response(f"Person with id {person_id} was deleted", 200, person=person.to_dict())
 
 
-@blueprint.route('/<person_id>', methods=['PUT'])
+@blueprint.route('/<person_id>', methods=['PUT'], strict_slashes=False)
 def put(person_id):
     modified_person = request.json
     increment_age = modified_person.get('age', False)
@@ -58,7 +58,7 @@ def put(person_id):
         return make_response("Success", 200, person=person.to_dict())
 
 
-@blueprint.route('/', methods=['POST'])
+@blueprint.route('/', methods=['POST'], strict_slashes=False)
 def post():
     data = request.json
     office_id = data.get('office_id')

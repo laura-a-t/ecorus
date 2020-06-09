@@ -50,15 +50,12 @@ def add_employee():
     person_id = data['person_id']
     with session() as sess:
         try:
-            person = sess.query(Person).filter_by(id=person_id).one()
-            office = sess.query(Office).filter_by(id=office_id).one()
-            office.people_working.append(person)
+            sess.query(Person).filter_by(id=person_id).update({"office_id": office_id})
         except NoResultFound:
             return make_response(f"No person with id {person_id} exists", 404)
         return make_response(
             f"Person with id {person_id} was added to office with id {office_id}",
             200,
-            office=office.to_dict()
         )
 
 
@@ -71,15 +68,12 @@ def remove_employee():
     person_id = data['person_id']
     with session() as sess:
         try:
-            person = sess.query(Person).filter_by(id=person_id).one()
-            office = sess.query(Office).filter_by(id=office_id).one()
-            office.people_working.remove(person)
+            sess.query(Person).filter_by(id=person_id).update({"office_id": None})
         except NoResultFound:
             return make_response(f"No person with id {person_id} exists", 404)
         return make_response(
             f"Person with id {person_id} was removed from office with id {office_id}",
             200,
-            office=office.to_dict()
         )
 
 

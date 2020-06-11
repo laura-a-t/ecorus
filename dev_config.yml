@@ -1,4 +1,2 @@
 DB:
-  connection_string: 'postgresql://postgres:veverita0239@localhost:5432/ecorus_assignment'
-  kwargs:
-    pool_timeout: 5
+  connection_string: 'postgresql://ecorus:writer@database:5432/ecorus'

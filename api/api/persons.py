@@ -2,9 +2,9 @@ from flask import request, Blueprint
 from werkzeug.exceptions import HTTPException
 from sqlalchemy.orm.exc import NoResultFound
 
-from main.api.util import make_response
-from main.db.db import session
-from main.db.models import Person, Office
+from api.api.util import make_response
+from api.db.db import session
+from api.db.models import Person, Office
 
 blueprint = Blueprint('persons', __name__)
 

@@ -1,4 +1,34 @@
-# ecorus
+# Ecorus
+
+### Requests to populate database (aka initial assignment)
+```bash
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"name":"Ecorus"}' \
+  http://localhost:8080/office/
+```
+```bash
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"name":"Laura", "age": 3}' \
+  http://localhost:8080/person/
+```
+```bash
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"name":"Eduardo", "age": 4}' \
+  http://localhost:8080/person/
+```
+```bash
+curl --header "Content-Type: application/json"   --request PUT   --data '{"office_id": 1, "person_id": 1}'   http://localhost:8080/office/add_employee
+```
+```bash
+curl --header "Content-Type: application/json"   --request PUT   --data '{"office_id": 1, "person_id": 2}'   http://localhost:8080/office/add_employee
+```
+##### Last part of the initial assignment
+```bash
+curl --header "Content-Type: application/json"   --request PUT   --data '{"office_id": 1, "person_id": 2}'   http://localhost:8080/office/remove_employee
+```
 
 ### Endpoints with examples
 ##### GET Office example

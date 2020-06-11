@@ -1,6 +1,6 @@
 from flask import Flask, make_response
 
-from main.api import offices, persons
+from api.api import offices, persons
 
 ENDPOINTS = [
     ('/office', offices.blueprint),

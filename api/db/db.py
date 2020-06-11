@@ -1,12 +1,8 @@
 from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
 
-from main.utils import get_config
-
-
-Base = declarative_base()
+from api.utils import get_config
 
 
 class EngineSingleton:
@@ -46,8 +42,3 @@ def session(db_config=None, commit=True):
         raise e
     finally:
         session.close()
-
-
-def initialise_db(db_config):
-    engine = EngineSingleton(db_config).get_engine()
-    Base.metadata.create_all(engine, checkfirst=True)

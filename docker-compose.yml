@@ -1,0 +1,27 @@
+version: '3'
+services:
+  database:
+    image: postgres
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: ecorus
+      POSTGRES_PASSWORD: writer
+      PGDATA: /data/pgdata
+    volumes:
+      - /data/ecorus/pgdata:/data/pgdata
+  api:
+    expose:
+      - "8080"
+    build:
+      context: .
+    depends_on:
+      - database
+  nginx:
+    build:
+      context: ./webserver
+    ports:
+      - 1337:80
+    depends_on:
+      - api

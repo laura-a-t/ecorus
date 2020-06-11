@@ -22,6 +22,6 @@ services:
     build:
       context: ./webserver
     ports:
-      - 1337:80
+      - "1337:80"
     depends_on:
       - api

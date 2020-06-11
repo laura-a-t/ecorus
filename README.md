@@ -5,35 +5,35 @@
 curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"name":"Ecorus"}' \
-  http://localhost:8080/office/
+  http://178.62.196.96:10080/office/
 ```
 ```bash
 curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"name":"Laura", "age": 3}' \
-  http://localhost:8080/person/
+  http://178.62.196.96:10080/person/
 ```
 ```bash
 curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"name":"Eduardo", "age": 4}' \
-  http://localhost:8080/person/
+  http://178.62.196.96:10080/person/
 ```
 ```bash
-curl --header "Content-Type: application/json"   --request PUT   --data '{"office_id": 1, "person_id": 1}'   http://localhost:8080/office/add_employee
+curl --header "Content-Type: application/json"   --request PUT   --data '{"office_id": 1, "person_id": 1}'   http://178.62.196.96:10080/office/add_employee
 ```
 ```bash
-curl --header "Content-Type: application/json"   --request PUT   --data '{"office_id": 1, "person_id": 2}'   http://localhost:8080/office/add_employee
+curl --header "Content-Type: application/json"   --request PUT   --data '{"office_id": 1, "person_id": 2}'   http://178.62.196.96:10080/office/add_employee
 ```
 ##### Last part of the initial assignment
 ```bash
-curl --header "Content-Type: application/json"   --request PUT   --data '{"office_id": 1, "person_id": 2}'   http://localhost:8080/office/remove_employee
+curl --header "Content-Type: application/json"   --request PUT   --data '{"office_id": 1, "person_id": 2}'   http://178.62.196.96:10080/office/remove_employee
 ```
 
 ### Endpoints with examples
 ##### GET Office example
 ```bash
-curl --request GET http://localhost:8080/office/7
+curl --request GET http://178.62.196.96:10080/office/7
 ```
 ##### Output
 ```json
@@ -42,7 +42,7 @@ curl --request GET http://localhost:8080/office/7
 ---
 ##### DELETE Office example
 ```bash
-curl --request DELETE http://localhost:8080/office/10
+curl --request DELETE http://178.62.196.96:10080/office/10
 ```
 ##### Output
 ```json
@@ -54,7 +54,7 @@ curl --request DELETE http://localhost:8080/office/10
 curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"name":"IT"}' \
-  http://localhost:8080/office/
+  http://178.62.196.96:10080/office/
 ```
 ##### Output
 ```json
@@ -63,7 +63,7 @@ curl --header "Content-Type: application/json" \
 ---
 #### GET Person example
 ```bash
-curl --request GET http://localhost:8080/person/5
+curl --request GET http://178.62.196.96:10080/person/5
 ```
 ##### Output
 ```json
@@ -72,7 +72,7 @@ curl --request GET http://localhost:8080/person/5
 ---
 #### POST Person example
 ```bash
-curl --header "Content-Type: application/json"   --request POST   --data '{"name":"Laura", "age": 32, "office_id": 80}'   http://localhost:8080/person/
+curl --header "Content-Type: application/json"   --request POST   --data '{"name":"Laura", "age": 32, "office_id": 80}'   http://178.62.196.96:10080/person/
 ```
 ##### Output
 ```json
@@ -81,7 +81,7 @@ curl --header "Content-Type: application/json"   --request POST   --data '{"name
 ---
 #### PUT Person example
 ```bash
-curl --header "Content-Type: application/json"   --request PUT   --data '{"name": "Ana", "age": true}'   http://localhost:8080/person/5
+curl --header "Content-Type: application/json"   --request PUT   --data '{"name": "Ana", "age": true}'   http://178.62.196.96:10080/person/5
 ```
 ##### Output
 ```json
@@ -90,7 +90,7 @@ curl --header "Content-Type: application/json"   --request PUT   --data '{"name"
 ---
 #### DELETE Person example
 ```bash
-curl --request DELETE http://localhost:8080/person/3 
+curl --request DELETE http://178.62.196.96:10080/person/3 
 ```
 ##### Output
 ```json

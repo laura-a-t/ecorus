@@ -12,8 +12,8 @@ services:
     volumes:
       - /data/ecorus/pgdata:/data/pgdata
   api:
-    expose:
-      - "8080"
+    ports:
+      - "8080:8080"
     build:
       context: .
     depends_on:
@@ -22,6 +22,6 @@ services:
     build:
       context: ./webserver
     ports:
-      - "1337:80"
+      - "10080:80"
     depends_on:
       - api

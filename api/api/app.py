@@ -22,6 +22,7 @@ def init_schema():
     db_config = get_config('DB')
     engine = EngineSingleton(db_config).get_engine()
     Base.metadata.create_all(engine, checkfirst=True)
+    return make_response(), 200
 
 
 def setup_endpoints(application):
